@@ -22,6 +22,9 @@ func mapCommands() commands {
 	cmds.register("register", handleRegister)
 	cmds.register("reset", handleReset)
 	cmds.register("users", handleUsers)
+	cmds.register("agg", handleAgg)
+	cmds.register("addfeed", handleAddFeed)
+	cmds.register("feeds", handleFeeds)
 
 	return cmds
 }

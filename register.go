@@ -35,7 +35,7 @@ func handleRegister(state *state, cmd command) error {
 	}
 
 	fmt.Println("User was created!")
-	fmt.Println("%v", user)
+	fmt.Println(user)
 
 	return nil
 }
