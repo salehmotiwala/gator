@@ -1,7 +1,9 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/salehmotiwala/gator/internal/config"
@@ -24,11 +26,12 @@ func mapCommands() commands {
 	return cmds
 }
 
-func getUserCommands() (command, error) {
+func parseUserInput() command {
 	args := os.Args
 
 	if len(args) < 2 {
-		return command{}, fmt.Errorf("gator expects a command. No command found")
+		fmt.Println("gator expects a command. No command found")
+		os.Exit(1)
 	}
 
 	cmd := command{
@@ -36,5 +39,17 @@ func getUserCommands() (command, error) {
 		args: args[2:],
 	}
 
-	return cmd, nil
+	return cmd
+}
+
+func setupDb(cfg *config.Config) (*sql.DB, *database.Queries) {
+	db, err := sql.Open("postgres", cfg.DbUrl)
+
+	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
+	}
+
+	dbQueries := database.New(db)
+
+	return db, dbQueries
 }
