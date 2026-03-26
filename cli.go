@@ -5,16 +5,19 @@ import (
 	"os"
 
 	"github.com/salehmotiwala/gator/internal/config"
+	"github.com/salehmotiwala/gator/internal/database"
 )
 
 type state struct {
 	cfg *config.Config
+	db  *database.Queries
 }
 
 func mapCommands() commands {
 	cmds := commands{}
 
 	cmds.register("login", handleLogin)
+	cmds.register("register", handleRegister)
 
 	return cmds
 }

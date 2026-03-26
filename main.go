@@ -1,9 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 
+	_ "github.com/lib/pq"
 	"github.com/salehmotiwala/gator/internal/config"
+	"github.com/salehmotiwala/gator/internal/database"
 )
 
 func main() {
@@ -14,8 +17,17 @@ func main() {
 		log.Fatalf("Error reading file: %v", err)
 	}
 
+	db, err := sql.Open("postgres", cfgFile.DbUrl)
+
+	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
+	}
+
+	dbQueries := database.New(db)
+
 	state := &state{
 		cfg: &cfgFile,
+		db:  dbQueries,
 	}
 
 	cmd, err := getUserCommands()

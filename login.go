@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+	"log"
+)
 
 func handleLogin(state *state, cmd command) error {
 	if len(cmd.args) == 0 || len(cmd.args) > 1 {
@@ -8,7 +12,14 @@ func handleLogin(state *state, cmd command) error {
 	}
 
 	username := cmd.args[0]
-	err := state.cfg.SetUser(username)
+
+	user, err := state.db.GetUser(context.Background(), username)
+
+	if err != nil {
+		log.Fatal("User does not exist.")
+	}
+
+	err = state.cfg.SetUser(user.Name)
 
 	if err != nil {
 		return err
