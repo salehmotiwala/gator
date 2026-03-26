@@ -25,6 +25,8 @@ func mapCommands() commands {
 	cmds.register("agg", handleAgg)
 	cmds.register("addfeed", handleAddFeed)
 	cmds.register("feeds", handleFeeds)
+	cmds.register("follow", handleFollow)
+	cmds.register("following", handleFollowing)
 
 	return cmds
 }
