@@ -18,6 +18,7 @@ func mapCommands() commands {
 
 	cmds.register("login", handleLogin)
 	cmds.register("register", handleRegister)
+	cmds.register("reset", handleReset)
 
 	return cmds
 }

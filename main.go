@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 	"github.com/salehmotiwala/gator/internal/config"
@@ -41,4 +42,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
+
+	os.Exit(0)
 }
