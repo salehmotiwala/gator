@@ -4,20 +4,17 @@ import (
 	"context"
 	"fmt"
 	"log"
+
+	"github.com/salehmotiwala/gator/internal/database"
 )
 
-func handleFollowing(state *state, cmd command) error {
-	if state.cfg.CurrentUsername == "" {
-		return fmt.Errorf("You must be registered. Use command `gator register <name>`\n")
-	}
-
-	user, err := state.db.GetUser(context.Background(), state.cfg.CurrentUsername)
-
-	if err != nil {
-		log.Fatalf("User not found: %v", err)
-	}
+func handleFollowing(state *state, cmd command, user database.User) error {
 
 	follows, err := state.db.GetFeedFollowsForUser(context.Background(), user.ID)
+
+	if err != nil {
+		log.Fatalf("Cannot get following users. %v", err)
+	}
 
 	fmt.Println("You are following:")
 	for _, follow := range follows {

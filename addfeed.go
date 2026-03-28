@@ -10,23 +10,13 @@ import (
 	"github.com/salehmotiwala/gator/internal/database"
 )
 
-func handleAddFeed(state *state, cmd command) error {
+func handleAddFeed(state *state, cmd command, user database.User) error {
 	if len(cmd.args) != 2 {
 		return fmt.Errorf("Command `addfeed` must have only two arguments: <name> <url>\n")
 	}
 
-	if state.cfg.CurrentUsername == "" {
-		return fmt.Errorf("You are not logged in.")
-	}
-
 	name := cmd.args[0]
 	url := cmd.args[1]
-
-	user, err := state.db.GetUser(context.Background(), state.cfg.CurrentUsername)
-
-	if err != nil {
-		log.Fatal("Cannot get user: %v", err)
-	}
 
 	params := database.CreateFeedParams{
 		ID:        uuid.New(),
